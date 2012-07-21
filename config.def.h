@@ -16,6 +16,7 @@
 #define DEFAULT_MODE    TILE      /* initial layout/mode: TILE MONOCLE BSTACK GRID FLOAT */
 #define ATTACH_ASIDE    True      /* False means new window is master */
 #define FOLLOW_WINDOW   False     /* follow the window when moved to a different desktop */
+#define FOLLOW_MONITOR  False     /* follow the window when moved to a different monitor */
 #define FOLLOW_MOUSE    False     /* focus the window the mouse just entered */
 #define CLICK_TO_FOCUS  False     /* focus an unfocused window when clicked  */
 #define BORDER_WIDTH    2         /* window border width */
@@ -44,7 +45,8 @@ static const AppRule rules[] = { \
 static const char *termcmd[] = { "xterm", NULL };
 
 #define MONITORCHANGE(K,N) \
-    {  MOD4,             K,              change_monitor, {.i = N}},
+    {  MOD4,             K,              change_monitor, {.i = N}}, \
+    {  MOD4|ShiftMask,   K,              client_to_monitor, {.i = N}},
 
 #define DESKTOPCHANGE(K,N) \
     {  MOD1,             K,              change_desktop, {.i = N}}, \
