@@ -1155,9 +1155,10 @@ void tile(Desktop *d, Monitor *m) {
  * client, so invisible windows do not exist on screen
  */
 void unmapnotify(XEvent *e) {
+    Monitor *m = NULL;
     Desktop *d = NULL;
     Client *c = NULL;
-    if (e->xunmap.send_event && wintoclient(e->xunmap.window, &c, &d)) removeclient(c, d);
+    if (e->xunmap.send_event && wintoclient(e->xunmap.window, &c, &d, &m)) removeclient(c, d, m);
 }
 
 /**
