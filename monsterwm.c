@@ -901,8 +901,8 @@ void moveresize(const Arg *arg) {
  * if the window is the last on stack, focus head
  */
 void next_win(void) {
-    Desktop *d = &desktops[currdeskidx];
-    if (d->curr && d->head->next) focus(d->curr->next ? d->curr->next:d->head, d);
+    Desktop *d = &monitors[currmonidx].desktops[monitors[currmonidx].currdeskidx];
+    if (d->curr && d->head->next) focus(d->curr->next ? d->curr->next:d->head, d, &monitors[currmonidx]);
 }
 
 /**
@@ -920,8 +920,8 @@ Client* prevclient(Client *c, Desktop *d) {
  * if the window is head, focus the last stack window
  */
 void prev_win(void) {
-    Desktop *d = &desktops[currdeskidx];
-    if (d->curr && d->head->next) focus(prevclient(d->curr, d), d);
+    Desktop *d = &monitors[currmonidx].desktops[monitors[currmonidx].currdeskidx];
+    if (d->curr && d->head->next) focus(prevclient(d->curr, d), d, &monitors[currmonidx]);
 }
 
 /**
