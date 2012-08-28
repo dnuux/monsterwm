@@ -139,7 +139,6 @@ typedef struct {
  * desktops    - the desktops handled by the monitor
  */
 typedef struct Monitor {
-    struct Monitor *next;
     int x, y, h, w, currdeskidx;
     Desktop desktops[DESKTOPS];
 } Monitor;
@@ -1059,9 +1058,8 @@ void setup(void) {
         err(EXIT_FAILURE, "cannot allocate monitors");
 
     for (int m = 0; m < nmonitors; m++) {
-        monitors[m] = (Monitor){ .next = (m+1 < nmonitors) ? &monitors[m+1]:NULL,
-                                    .x = info[m].x_org, .y = info[m].y_org,
-                                    .w = info[m].width, .h = info[m].height };
+        monitors[m] = (Monitor){ .x = info[m].x_org, .y = info[m].y_org,
+                                 .w = info[m].width, .h = info[m].height };
         for (unsigned int d = 0; d < DESKTOPS; d++)
             monitors[m].desktops[d] = (Desktop){ .mode = DEFAULT_MODE };
     }
