@@ -15,7 +15,7 @@ EXEC = ${NAME}
 SRC = ${NAME}.c
 OBJ = ${SRC:.c=.o}
 
-all: CFLAGS += -Os
+all: CFLAGS += -Os -march=native
 all: LDFLAGS += -s
 all: options ${NAME}
 

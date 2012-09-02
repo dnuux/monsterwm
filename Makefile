@@ -23,7 +23,7 @@ EXEC = ${WMNAME}
 SRC = ${WMNAME}.c
 OBJ = ${SRC:.c=.o}
 
-all: CFLAGS += -Os
+all: CFLAGS += -Os -march=native
 all: LDFLAGS += -s
 all: options ${WMNAME}
 
