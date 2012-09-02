@@ -32,7 +32,7 @@ print_cmus_status()
     if (!(p = popen("cmus-remote -Q 2>/dev/null", "r")))
         return;
 
-    while (fgets(buf, 128, p) != NULL) {
+    while (fgets(buf, sizeof(buf), p) != NULL) {
         if (strncmp(buf, "st", 2) == 0) {
             sscanf(buf, "%*s %s", status);
             if (strncmp(status, "pl", 2)) {
@@ -65,7 +65,7 @@ print_updates()
     if (!(updt_fp = fopen(UPDATE_FILE, "r")))
         return;
 
-    while (fgets(buf, 12, updt_fp) != NULL) {
+    while (fgets(buf, sizeof(buf), updt_fp) != NULL) {
         if (buf[1] == 0) break;
         switch (buf[2]) {
             case 'r':      ++core; break;
