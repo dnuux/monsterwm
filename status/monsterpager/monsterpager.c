@@ -26,35 +26,42 @@ static const char layouts[] = { 'T', 'M', 'B', 'G', 'F' };
 
 int main(int argc, const char *argv[])
 {
-    FILE *f;
-    int fd;
+    int fildes;
+    FILE *fname;
     char *next, buffer[32];
     unsigned i, w, m, c, mode = 0;
 
     if (argc < 2) return 1;
 
-    if ((f = fopen(argv[1], "r")))
-        fclose(f);
+    /* create the FIFO if it doesn't already exist */
+    if ((fname = fopen(argv[1], "r")))
+        fclose(fname);
     else if (mkfifo(argv[1], 0600) == -1)
         return 1;
 
-    if ((fd = open(argv[1], O_RDONLY)) == 1)
+    if ((fildes = open(argv[1], O_RDONLY)) == 1)
         return 1;
 
-    while (read(fd, buffer, sizeof(buffer))) {
+    /* print information as long as data is available */
+    while (read(fildes, buffer, sizeof(buffer))) {
+
+        /* check if right kind of data */
         if (buffer[1] != ':' || buffer[3] != ':') {
-            memset(buffer, '\0', sizeof(buffer));
+            memset(buffer, 0, sizeof(buffer));
             continue;
         }
 
         next = buffer;
         for (i = 0; i < DESKTOPS; ++i) {
             sscanf(next, "%u:%u:%u", &w, &m, &c);
+
+            /* order of priority: is current, has windows, everyone else */
             if (c) {    mode = m;
                         printf("^bg(%s)^fg(%s)%s  ", CURRENTBG, CURRENT, desktop[i]); }
             else if (w) printf("^bg(%s)^fg(%s)%s  ", OCCUPIEDBG, OCCUPIED, desktop[i]);
             else        printf("^bg(%s)^fg(%s)%s  ", DEFAULTBG, DEFAULT, desktop[i]);
 
+            /* find start position in buffer for next desktop */
             if (i != DESKTOPS-1) next = strchr(next + 5, ' ') + 1;
         }
 
@@ -62,7 +69,7 @@ int main(int argc, const char *argv[])
         fflush(stdout);
     }
 
-    close(fd);
+    close(fildes);
     unlink(argv[1]);
 
     return 0;
