@@ -83,7 +83,6 @@ static void change_desktop(const Arg *arg);
 static void change_monitor(const Arg *arg);
 static void client_to_desktop(const Arg *arg);
 static void client_to_monitor(const Arg *arg);
-static void focusurgent();
 static void killclient();
 static void last_desktop();
 static void move_down();
@@ -92,11 +91,9 @@ static void moveresize(const Arg *arg);
 static void mousemotion(const Arg *arg);
 static void next_win();
 static void prev_win();
-static void quit(const Arg *arg);
+static void quit();
 static void resize_master(const Arg *arg);
 static void resize_stack(const Arg *arg);
-static void rotate(const Arg *arg);
-static void rotate_filled(const Arg *arg);
 static void spawn(const Arg *arg);
 static void swap_master();
 static void switch_mode(const Arg *arg);
@@ -201,7 +198,7 @@ static int xerrorstart(Display *dis, XErrorEvent *ee);
  * currdeskidx  - which desktop is currently active
  */
 static Bool running = True;
-static int nmonitors, currmonidx = 0, retval = 0;
+static int nmonitors, currmonidx = 0;
 static unsigned int numlockmask = 0, win_focus, win_unfocus, win_infocus;
 static Display *dis;
 static Window root;
@@ -495,17 +492,13 @@ void deletewindow(Window w) {
  * once the info is collected, immediately flush the stream
  */
 void desktopinfo(void) {
-    Monitor *m = NULL;
+    Monitor *m = &monitors[0];
     Client *c = NULL;
-    Bool urgent = False;
 
-    for (int cm = 0; cm < nmonitors; cm++)
-        for (int cd = 0, w = 0; cd < DESKTOPS; cd++, w = 0, urgent = False) {
-            for (m = &monitors[cm], c = m->desktops[cd].head; c; urgent |= c->isurgn, ++w, c = c->next);
-            printf("%d:%d:%d:%d:%d:%d:%d ", cm, cm == currmonidx, cd, w, m->desktops[cd].mode, cd == m->currdeskidx, urgent);
-        }
-
-    printf("\n");
+    for (int cd = 0, w = 0; cd < DESKTOPS; cd++, w = 0) {
+        for (c = m->desktops[cd].head; c; ++w, c = c->next);
+        printf("%d:%d:%d%c", w, m->desktops[cd].mode, cd == m->currdeskidx, cd == DESKTOPS-1 ? '\n':' ');
+    }
     fflush(stdout);
 }
 
@@ -655,19 +648,6 @@ void focusin(XEvent *e) {
     Monitor *m = &monitors[currmonidx];
     Desktop *d = &m->desktops[m->currdeskidx];
     if (d->curr && e->xfocus.window != d->curr->win) focus(d->curr, d, m);
-}
-
-/**
- * find and focus the first client that received an urgent hint
- * first look in the current desktop then on other desktops
- */
-void focusurgent(void) {
-    Monitor *m = &monitors[currmonidx];
-    Client *c = NULL;
-    int d = -1;
-    for (c = m->desktops[m->currdeskidx].head; c && !c->isurgn; c = c->next);
-    while (!c && d < DESKTOPS-1) for (c = m->desktops[++d].head; c && !c->isurgn; c = c->next);
-    if (c) { if (d != -1) change_desktop(&(Arg){.i = d}); focus(c, &m->desktops[m->currdeskidx], m); }
 }
 
 /**
@@ -1021,8 +1001,7 @@ void propertynotify(XEvent *e) {
  * to quit just stop receiving events
  * run is stopped and control is back to main
  */
-void quit(const Arg *arg) {
-    retval = arg->i;
+void quit(void) {
     running = False;
 }
 
@@ -1062,23 +1041,6 @@ void resize_master(const Arg *arg) {
 void resize_stack(const Arg *arg) {
     monitors[currmonidx].desktops[monitors[currmonidx].currdeskidx].sasz += arg->i;
     tile(&monitors[currmonidx].desktops[monitors[currmonidx].currdeskidx], &monitors[currmonidx]);
-}
-
-/**
- * jump and focus the next or previous desktop
- */
-void rotate(const Arg *arg) {
-    change_desktop(&(Arg){.i = (DESKTOPS + monitors[currmonidx].currdeskidx + arg->i) % DESKTOPS});
-}
-
-/**
- * jump and focus the next non-empty desktop
- */
-void rotate_filled(const Arg *arg) {
-    Monitor *m = &monitors[currmonidx];
-    int n = arg->i;
-    while (n < DESKTOPS && !m->desktops[(DESKTOPS + m->currdeskidx + n) % DESKTOPS].head) (n += arg->i);
-    change_desktop(&(Arg){.i = (DESKTOPS + m->currdeskidx + n) % DESKTOPS});
 }
 
 /**
@@ -1180,7 +1142,6 @@ void setup(void) {
 
     grabkeys();
     if (DEFAULT_DESKTOP >= 0 && DEFAULT_DESKTOP < DESKTOPS) change_desktop(&(Arg){.i = DEFAULT_DESKTOP});
-    if (DEFAULT_MONITOR >= 0 && DEFAULT_MONITOR < nmonitors) change_monitor(&(Arg){.i = DEFAULT_MONITOR});
 }
 
 void sigchld(__attribute__((unused)) int sig) {
@@ -1363,5 +1324,5 @@ int main(int argc, char *argv[]) {
     run();
     cleanup();
     XCloseDisplay(dis);
-    return retval;
+    return 0;
 }
