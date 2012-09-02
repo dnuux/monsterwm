@@ -1,0 +1,21 @@
+# Maintained by dnuux <dnuuxx@gmail.com>
+pkgname=monsterpager
+pkgver=20120831
+pkgrel=1
+pkgdesc="Very minimal, lightweight pager for monsterwm"
+arch=('i686' 'x86_64')
+license=('MIT')
+groups=('modified')
+depends=('glibc')
+source=("Makefile"
+        "monsterpager.c")
+
+build() {
+  cd "${srcdir}"
+  make
+}
+
+package() {
+  cd "${srcdir}"
+  make PREFIX=/usr DESTDIR="${pkgdir}" install
+}
