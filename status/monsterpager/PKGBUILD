@@ -4,8 +4,7 @@ pkgver=20120902
 pkgrel=1
 pkgdesc="Very minimal, lightweight pager for monsterwm"
 arch=('i686' 'x86_64')
-license=('MIT')
-groups=('modified')
+license=('WTFPL')
 depends=('glibc')
 source=("Makefile"
         "monsterpager.c")
