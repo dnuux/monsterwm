@@ -1,6 +1,6 @@
 # Maintained by dnuux <dnuuxx@gmail.com>
 pkgname=monsterstatus
-pkgver=20120825
+pkgver=20120902
 pkgrel=1
 pkgdesc="Very minimal, lightweight status tool"
 arch=('i686' 'x86_64')

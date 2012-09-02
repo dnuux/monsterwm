@@ -1,6 +1,6 @@
 # Maintained by dnuux <dnuuxx@gmail.com>
 pkgname=monsterwm
-pkgver=20120828
+pkgver=20120902
 pkgrel=1
 pkgdesc="Very minimal, lightweight, monstrous, tiny, dynamic window manager"
 url="https://github.com/c00kiemon5ter/monsterwm"
