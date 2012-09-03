@@ -1,4 +1,4 @@
-# Maintained by dnuux <dnuuxx@gmail.com>
+# Maintainer: dnuux <dnuuxx@gmail.com>
 pkgname=monsterwm
 pkgver=20120903
 pkgrel=1
@@ -14,6 +14,11 @@ source=("Makefile"
         "monsterwm.c"
         "monsterwm.1"
         "LICENSE")
+md5sums=('f7d6353d7882fa69bde77e4ac65382a0'
+         'd133db4259e73bcce943822d5d6558b3'
+         '638e5aa0bc00427035aaf387ad03c03c'
+         '4ec00c94b3783092e25b4ca7f6c540ea'
+         'c97bdb63d9ef7d6ec9b67d9b02649cc8')
 
 build() {
   cd "${srcdir}"

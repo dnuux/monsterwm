@@ -1,13 +1,16 @@
-# Maintained by dnuux <dnuuxx@gmail.com>
+# Maintainer: dnuux <dnuuxx@gmail.com>
 pkgname=monsterpager
 pkgver=20120903
 pkgrel=1
 pkgdesc="Very minimal, lightweight pager for monsterwm"
+url="https://github.com/dnuux/monsterwm"
 arch=('i686' 'x86_64')
 license=('WTFPL')
 depends=('glibc')
 source=("Makefile"
         "monsterpager.c")
+md5sums=('4d4754d6007ff7176712e45818eef45a'
+         'af6b495de1e22197dc55e272bad0ce6e')
 
 build() {
   cd "${srcdir}"
