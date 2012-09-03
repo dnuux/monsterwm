@@ -6,7 +6,7 @@ BINDIR ?= ${PREFIX}/bin
 INCS = -I. -I/usr/include
 LIBS = -L/usr/lib
 
-CFLAGS  = -ansi -pedantic -Wall -Wextra ${INCS}
+CFLAGS  = -std=c99 -pedantic -Wall -Wextra ${INCS}
 LDFLAGS = ${LIBS}
 
 CC 	 = cc

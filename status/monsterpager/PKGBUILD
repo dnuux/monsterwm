@@ -1,6 +1,6 @@
 # Maintained by dnuux <dnuuxx@gmail.com>
 pkgname=monsterpager
-pkgver=20120902
+pkgver=20120903
 pkgrel=1
 pkgdesc="Very minimal, lightweight pager for monsterwm"
 arch=('i686' 'x86_64')

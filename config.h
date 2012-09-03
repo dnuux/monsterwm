@@ -65,10 +65,10 @@ static const struct ml init[] = { \
  */
 static const AppRule rules[] = { \
     /*  class     monitor  desktop  follow  float */
-    { "mplayer2",    0,      -1,    False,  True  },
+    { "mplayer",     0,      -1,    False,  True  },
     { "sxiv",        0,      -1,    False,  True  },
     { "Navigator",   0,       1,    False,  False },
-    { "Zathura",     0,       2,    False,  False },
+    { "zathura",     0,       2,    False,  False },
     { "rtorrent",    0,       3,    False,  False },
     { "cmus",        0,       0,    False,  False },
     { "htop",        0,       0,    False,  False },

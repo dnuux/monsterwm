@@ -24,12 +24,38 @@ static const char *desktop[DESKTOPS] = {
 
 static const char layouts[] = { 'T', 'M', 'B', 'G', 'F' };
 
+static inline void
+printdata(char *buf)
+{
+    char *next;
+    unsigned i, w, m, c, mode = 0;
+
+    next = buf;
+    for (i = 0; i < DESKTOPS; ++i) {
+        /* check if right kind of data */
+        if (sscanf(next, "%u:%u:%u", &w, &m, &c) != 3) {
+            memset(buf, 0, 32);
+            return;
+        }
+
+        /* order of priority: is current, has windows, everyone else */
+        if (c) {    mode = m;
+                    printf("^bg(%s)^fg(%s)%s  ", CURRENTBG, CURRENT, desktop[i]); }
+        else if (w) printf("^bg(%s)^fg(%s)%s  ", OCCUPIEDBG, OCCUPIED, desktop[i]);
+        else        printf("^bg(%s)^fg(%s)%s  ", DEFAULTBG, DEFAULT, desktop[i]);
+
+        if (i != DESKTOPS-1) next = strchr(next + 5, ' ') + 1;
+    }
+
+    printf("^bg()  ^fg(" LAYOUT ")[%c]\n", layouts[mode]);
+    fflush(stdout);
+}
+
 int main(int argc, const char *argv[])
 {
     int fildes;
     FILE *fname;
-    char *next, buffer[32];
-    unsigned i, w, m, c, mode = 0;
+    char buffer[32];
 
     if (argc < 2) return 1;
 
@@ -43,31 +69,8 @@ int main(int argc, const char *argv[])
         return 1;
 
     /* print information as long as data is available */
-    while (read(fildes, buffer, sizeof(buffer))) {
-
-        /* check if right kind of data */
-        if (buffer[1] != ':' || buffer[3] != ':') {
-            memset(buffer, 0, sizeof(buffer));
-            continue;
-        }
-
-        next = buffer;
-        for (i = 0; i < DESKTOPS; ++i) {
-            sscanf(next, "%u:%u:%u", &w, &m, &c);
-
-            /* order of priority: is current, has windows, everyone else */
-            if (c) {    mode = m;
-                        printf("^bg(%s)^fg(%s)%s  ", CURRENTBG, CURRENT, desktop[i]); }
-            else if (w) printf("^bg(%s)^fg(%s)%s  ", OCCUPIEDBG, OCCUPIED, desktop[i]);
-            else        printf("^bg(%s)^fg(%s)%s  ", DEFAULTBG, DEFAULT, desktop[i]);
-
-            /* find start position in buffer for next desktop */
-            if (i != DESKTOPS-1) next = strchr(next + 5, ' ') + 1;
-        }
-
-        printf("^bg()  ^fg(" LAYOUT ")[%c]\n", layouts[mode]);
-        fflush(stdout);
-    }
+    while (read(fildes, buffer, sizeof(buffer)))
+        printdata(buffer);
 
     close(fildes);
     unlink(argv[1]);
