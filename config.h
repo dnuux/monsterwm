@@ -161,6 +161,4 @@ static Button buttons[] = {
     {  MOD4,    Button1,     mousemotion,   {.i = MOVE}},
     {  MOD4,    Button3,     mousemotion,   {.i = RESIZE}},
 };
-
 #endif
-

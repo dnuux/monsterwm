@@ -42,10 +42,10 @@ print_cmus_status()
             }
         } else if (strncmp(buf, "tag ti", 6) == 0) {
             sscanf(buf, "%*s %*s %[^\n]", title);
-            if (artist[0]) break;
+            if (*artist) break;
         } else if (strncmp(buf, "tag ar", 6) == 0) {
             sscanf(buf, "%*s %*s %[^\n]", artist);
-            if (title[0]) break;
+            if (*title) break;
         }
     }
 
