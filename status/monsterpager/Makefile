@@ -19,7 +19,7 @@ all: CFLAGS += -Os -march=native
 all: LDFLAGS += -s
 all: options ${NAME}
 
-debug: CFLAGS += -O0 -ggdb
+debug: CFLAGS += -O0 -g
 debug: options ${NAME}
 
 options:

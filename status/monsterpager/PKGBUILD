@@ -9,8 +9,8 @@ license=('WTFPL')
 depends=('glibc')
 source=("Makefile"
         "monsterpager.c")
-md5sums=('4d4754d6007ff7176712e45818eef45a'
-         'af6b495de1e22197dc55e272bad0ce6e')
+md5sums=('4ea15b04582b8321021cbecaa5f7f32a'
+         'f2def158a4a1aba5b8ca96f963dd2348')
 
 build() {
   cd "${srcdir}"

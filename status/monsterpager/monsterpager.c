@@ -27,10 +27,9 @@ static const char layouts[] = { 'T', 'M', 'B', 'G', 'F' };
 static inline void
 printdata(char *buf)
 {
-    char *next;
+    char *next = buf;
     unsigned i, w, m, c, mode = 0;
 
-    next = buf;
     for (i = 0; i < DESKTOPS; ++i) {
         /* check if right kind of data */
         if (sscanf(next, "%u:%u:%u", &w, &m, &c) != 3) {
