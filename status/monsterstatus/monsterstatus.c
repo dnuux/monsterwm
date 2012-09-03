@@ -23,9 +23,9 @@ static unsigned jif1, jif2, jif3, jif4, jif5, jif6, jif7;
 static inline void
 print_cmus_status()
 {
+    char *status = NULL;
     char artist[64] = "";
     char title[128] = "";
-    char status[8]  = "";
     char buf[128];
 
     FILE *p;
@@ -33,9 +33,9 @@ print_cmus_status()
         return;
 
     while (fgets(buf, sizeof(buf), p) != NULL) {
-        if (strncmp(buf, "st", 2) == 0) {
-            sscanf(buf, "%*s %s", status);
-            if (strncmp(status, "pl", 2)) {
+        if (buf[0] == 's' && buf[1] == 't') {
+            status = strchr(buf, ' ') + 1;
+            if (status[0] != 'p' || status[1] != 'l') {
                 pclose(p);
                 printf(MUSIC_STR "Paused    ");
                 return;
@@ -51,8 +51,8 @@ print_cmus_status()
 
     pclose(p);
 
-    if (status[0]) printf(MUSIC_STR "%s - %s    ", artist, title);
-    else           printf(MUSIC_STR "Not running    ");
+    if (status) printf(MUSIC_STR "%s - %s    ", artist, title);
+    else        printf(MUSIC_STR "Not running    ");
 }
 
 static inline void

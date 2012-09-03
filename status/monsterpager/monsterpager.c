@@ -44,6 +44,7 @@ printdata(char *buf)
         else if (w) printf("^bg(%s)^fg(%s)%s  ", OCCUPIEDBG, OCCUPIED, desktop[i]);
         else        printf("^bg(%s)^fg(%s)%s  ", DEFAULTBG, DEFAULT, desktop[i]);
 
+        /* find start position in buffer for next desktop */
         if (i != DESKTOPS-1) next = strchr(next + 5, ' ') + 1;
     }
 
