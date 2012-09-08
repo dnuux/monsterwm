@@ -20,7 +20,7 @@
 
 static unsigned jif1, jif2, jif3, jif4, jif5, jif6, jif7;
 
-static inline void
+static void
 print_cmus_status()
 {
     char *status = NULL;
@@ -55,7 +55,7 @@ print_cmus_status()
     else        printf(MUSIC_STR "Not running    ");
 }
 
-static inline void
+static void
 print_updates()
 {
     char buf[12];
@@ -79,7 +79,7 @@ print_updates()
     printf(UPDT_STR "%u / %u / %u / %u    ", core, extra, community, repo_ck);
 }
 
-static inline void
+static void
 print_cpu_usage()
 {
     FILE *cpuinfo_fp;
@@ -102,7 +102,7 @@ print_cpu_usage()
     jif5 = lnum5; jif6 = lnum6; jif7 = lnum7;
 }
 
-static inline void
+static void
 print_memory_usage()
 {
     FILE *meminfo_fp;
@@ -118,7 +118,7 @@ print_memory_usage()
     printf(MEM_STR "%uMiB    ", (memmax - memfree - buffers - cached) / 1024);
 }
 
-static inline void
+static void
 print_date()
 {
     char buf[20];

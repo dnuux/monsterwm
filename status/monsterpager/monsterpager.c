@@ -24,7 +24,7 @@ static const char *desktop[DESKTOPS] = {
 
 static const char layouts[] = { 'T', 'M', 'B', 'G', 'F' };
 
-static inline void
+static void
 printdata(char *buf)
 {
     char *next = buf;
