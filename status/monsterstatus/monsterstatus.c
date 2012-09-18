@@ -19,6 +19,8 @@
 #define DATE_STR     ICON("#cc7836", "clock.xbm")
 
 static unsigned jif1, jif2, jif3, jif4, jif5, jif6, jif7;
+static unsigned times = 1;
+static char pacbuf[16];
 
 static void
 print_cmus_status()
@@ -58,25 +60,31 @@ print_cmus_status()
 static void
 print_updates()
 {
-    char buf[12];
-    unsigned core = 0, extra = 0, community = 0, repo_ck = 0;
+    if (--times == 0) {
+        char buf[12];
+        unsigned core = 0, extra = 0, community = 0, repo_ck = 0;
 
-    FILE *updt_fp;
-    if (!(updt_fp = fopen(UPDATE_FILE, "r")))
-        return;
+        FILE *updt_fp;
+        if (!(updt_fp = fopen(UPDATE_FILE, "r")))
+            return;
 
-    while (fgets(buf, sizeof(buf), updt_fp) != NULL) {
-        if (buf[1] == 0) break;
-        switch (buf[2]) {
-            case 'r':      ++core; break;
-            case 't':     ++extra; break;
-            case 'm': ++community; break;
-            case 'p':   ++repo_ck; break;
+        while (fgets(buf, sizeof(buf), updt_fp) != NULL) {
+            if (buf[1] == 0) break;
+            switch (buf[2]) {
+                case 'r':      ++core; break;
+                case 't':     ++extra; break;
+                case 'm': ++community; break;
+                case 'p':   ++repo_ck; break;
+            }
         }
+
+        fclose(updt_fp);
+        snprintf(pacbuf, sizeof(pacbuf), "%u / %u / %u / %u",
+                 core, extra, community, repo_ck);
+        times = 12;
     }
 
-    fclose(updt_fp);
-    printf(UPDT_STR "%u / %u / %u / %u    ", core, extra, community, repo_ck);
+    printf(UPDT_STR "%s    ", pacbuf);
 }
 
 static void

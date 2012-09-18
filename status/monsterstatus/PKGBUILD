@@ -1,6 +1,6 @@
 # Maintainer: dnuux <dnuuxx@gmail.com>
 pkgname=monsterstatus
-pkgver=20120908
+pkgver=20120918
 pkgrel=1
 pkgdesc="Very minimal, lightweight status tool"
 url="https://github.com/dnuux/monsterwm"
@@ -10,7 +10,7 @@ depends=('glibc')
 source=("Makefile"
         "monsterstatus.c")
 md5sums=('450743c79b2526525ceb486278ae99c3'
-         '4255bbd04acfbdf4398ce1bc31ebec99')
+         '4b2dce8f76612a686a0655a6c749a0c6')
 
 build() {
   cd "${srcdir}"
