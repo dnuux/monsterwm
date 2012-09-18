@@ -133,8 +133,8 @@ typedef struct Client {
  * sbar - the visibility status of the panel/statusbar
  */
 typedef struct {
-    int mode, masz, sasz;
     Client *head, *curr, *prev;
+    int mode, masz, sasz;
     Bool sbar;
 } Desktop;
 
