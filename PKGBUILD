@@ -15,7 +15,7 @@ source=("Makefile"
         "monsterwm.1"
         "LICENSE")
 md5sums=('f7d6353d7882fa69bde77e4ac65382a0'
-         'a64a0fdc6adf670a0b69535cd024f5f2'
+         'c800edcb218d6c6bc8c1328da5dec9c4'
          '9e988ffbf4e0daa8bac770189f98870c'
          '4ec00c94b3783092e25b4ca7f6c540ea'
          'c97bdb63d9ef7d6ec9b67d9b02649cc8')

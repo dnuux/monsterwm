@@ -164,3 +164,5 @@ static Button buttons[] = {
     {  MOD4,    Button3,     mousemotion,   {.i = RESIZE}},
 };
 #endif
+
+/* vim: set expandtab ts=4 sts=4 sw=4 : */
