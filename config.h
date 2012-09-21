@@ -20,13 +20,15 @@
 #define FOLLOW_MONITOR  False     /* follow the window when moved to a different monitor */
 #define FOLLOW_MOUSE    False     /* focus the window the mouse just entered */
 #define CLICK_TO_FOCUS  True      /* focus an unfocused window when clicked  */
+#define FOCUS_BUTTON    Button3   /* mouse button to be used along with CLICK_TO_FOCUS */
 #define BORDER_WIDTH    2         /* window border width */
 #define FOCUS           "#ff950e" /* focused window border color   */
-#define UNFOCUS         "#666666" /* unfocused window border color */
+#define UNFOCUS         "#444444" /* unfocused window border color */
 #define INFOCUS         "#9c3885" /* focused window border color on unfocused monitor */
 #define MINWSZ          50        /* minimum window size in pixels */
-#define DESKTOPS        4         /* number of desktops - edit DESKTOPCHANGE keys to suit */
+#define DEFAULT_MONITOR 0         /* the monitor to focus initially */
 #define DEFAULT_DESKTOP 1         /* the desktop to focus initially */
+#define DESKTOPS        4         /* number of desktops - edit DESKTOPCHANGE keys to suit */
 
 struct ml {
     int m; /* monitor that the desktop in on  */
@@ -138,8 +140,8 @@ static Key keys[] = {
     {  MOD4,             XK_b,          togglepanel,       {NULL}},
     {  MOD4,             XK_Tab,        last_desktop,      {NULL}},
     {  MOD4|CONTROL,     XK_q,          quit,              {NULL}},
-    {  MOD1,             XK_j,          moveresize,        {.v = (int []){   0,  25,   0,   0 }}}, /* move up    */
-    {  MOD1,             XK_k,          moveresize,        {.v = (int []){   0, -25,   0,   0 }}}, /* move down  */
+    {  MOD1,             XK_j,          moveresize,        {.v = (int []){   0,  25,   0,   0 }}}, /* move down  */
+    {  MOD1,             XK_k,          moveresize,        {.v = (int []){   0, -25,   0,   0 }}}, /* move up    */
     {  MOD1,             XK_l,          moveresize,        {.v = (int []){  25,   0,   0,   0 }}}, /* move right */
     {  MOD1,             XK_h,          moveresize,        {.v = (int []){ -25,   0,   0,   0 }}}, /* move left  */
     {  MOD1|SHIFT,       XK_j,          moveresize,        {.v = (int []){   0,   0,   0,  25 }}}, /* height grow   */

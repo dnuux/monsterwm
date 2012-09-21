@@ -19,7 +19,8 @@
 #define FOLLOW_WINDOW   False     /* follow the window when moved to a different desktop */
 #define FOLLOW_MONITOR  False     /* follow the window when moved to a different monitor */
 #define FOLLOW_MOUSE    False     /* focus the window the mouse just entered */
-#define CLICK_TO_FOCUS  False     /* focus an unfocused window when clicked  */
+#define CLICK_TO_FOCUS  True      /* focus an unfocused window when clicked  */
+#define FOCUS_BUTTON    Button3   /* mouse button to be used along with CLICK_TO_FOCUS */
 #define BORDER_WIDTH    2         /* window border width */
 #define FOCUS           "#ff950e" /* focused window border color   */
 #define UNFOCUS         "#444444" /* unfocused window border color */
@@ -75,8 +76,7 @@ static const AppRule rules[] = { \
  * custom commands
  * must always end with ', NULL };'
  */
-static const char *termcmd[] = { "xterm",     NULL };
-static const char *menucmd[] = { "dmenu_run", NULL };
+static const char *termcmd[] = { "xterm", NULL };
 
 #define MONITORCHANGE(K,N) \
     {  MOD4,             K,              change_monitor, {.i = N}}, \
@@ -116,9 +116,8 @@ static Key keys[] = {
     {  MOD1|CONTROL,     XK_r,          quit,              {.i = 0}}, /* quit with exit value 0 */
     {  MOD1|CONTROL,     XK_q,          quit,              {.i = 1}}, /* quit with exit value 1 */
     {  MOD1|SHIFT,       XK_Return,     spawn,             {.com = termcmd}},
-    {  MOD4,             XK_v,          spawn,             {.com = menucmd}},
-    {  MOD4,             XK_j,          moveresize,        {.v = (int []){   0,  25,   0,   0 }}}, /* move up    */
-    {  MOD4,             XK_k,          moveresize,        {.v = (int []){   0, -25,   0,   0 }}}, /* move down  */
+    {  MOD4,             XK_j,          moveresize,        {.v = (int []){   0,  25,   0,   0 }}}, /* move down  */
+    {  MOD4,             XK_k,          moveresize,        {.v = (int []){   0, -25,   0,   0 }}}, /* move up    */
     {  MOD4,             XK_l,          moveresize,        {.v = (int []){  25,   0,   0,   0 }}}, /* move right */
     {  MOD4,             XK_h,          moveresize,        {.v = (int []){ -25,   0,   0,   0 }}}, /* move left  */
     {  MOD4|SHIFT,       XK_j,          moveresize,        {.v = (int []){   0,   0,   0,  25 }}}, /* height grow   */
@@ -139,6 +138,7 @@ static Key keys[] = {
 static Button buttons[] = {
     {  MOD1,    Button1,     mousemotion,   {.i = MOVE}},
     {  MOD1,    Button3,     mousemotion,   {.i = RESIZE}},
-    {  MOD4,    Button3,     spawn,         {.com = menucmd}},
 };
 #endif
+
+/* vim: set expandtab ts=4 sts=4 sw=4 : */
