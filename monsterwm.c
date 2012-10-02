@@ -442,11 +442,10 @@ void clientmessage(XEvent *e) {
  */
 void configurerequest(XEvent *e) {
     XConfigureRequestEvent *ev = &e->xconfigurerequest;
-    if (wintoclient(ev->window, &(Client *){0}, &(Desktop *){0}, &(Monitor *){0}))  {
-        XSendEvent(dis, ev->window, False, StructureNotifyMask, (XEvent *)&(XConfigureRequestEvent){ ConfigureNotify, 0L,
-          False, dis, ev->window, ev->window, ev->x, ev->y,  ev->width, ev->height, ev->border_width, ev->above, 0, 0 });
-    } else XConfigureWindow(dis, ev->window, ev->value_mask, &(XWindowChanges){ ev->x, ev->y,  ev->width,
-                                                      ev->height, ev->border_width, ev->above, ev->detail });
+    XWindowChanges wc = { ev->x, ev->y, ev->width, ev->height, ev->border_width, ev->above, ev->detail };
+    if (XConfigureWindow(dis, ev->window, ev->value_mask, &wc)) XSync(dis, False);
+    Monitor *m = NULL; Desktop *d = NULL; Client *c = NULL;
+    if (wintoclient(ev->window, &c, &d, &m)) tile(d, m);
 }
 
 /**
@@ -768,7 +767,7 @@ void maprequest(XEvent *e) {
     if (ch.res_name) XFree(ch.res_name);
 
     c = addwindow(w, (d = &(m = &monitors[newmon])->desktops[newdsk])); /* from now on, use c->win */
-    c->istrans = XGetTransientForHint(dis, c->win, &w);
+    if ((c->istrans = XGetTransientForHint(dis, c->win, &w))) MV(c, wa.x, wa.y);
     if ((c->isfloat = (floating || d->mode == FLOAT)) && !c->istrans)
         MV(c, m->x + (m->w - wa.width)/2, m->y + (m->h - wa.height)/2);
 
