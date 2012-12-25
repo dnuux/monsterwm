@@ -40,7 +40,7 @@ print_mpd_status()
         const enum mpd_state state = mpd_status_get_state(status);
         mpd_status_free(status);
 
-        if (state == MPD_STATE_PAUSE || state == MPD_STATE_STOP) {
+        if (state != MPD_STATE_PLAY) {
             printf(MUSIC_STR "Paused    ");
             mpd_connection_free(conn);
             return;

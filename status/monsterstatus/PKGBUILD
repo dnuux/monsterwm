@@ -10,7 +10,7 @@ depends=('glibc')
 source=("Makefile"
         "monsterstatus.c")
 md5sums=('d9b8a6398ba4d5b2583dacb60f510611'
-         '495d4a942d3902b9384f74ca7380ccdd')
+         '6ff1076681e4daa37d7681f1afb25be0')
 
 build() {
   cd "${srcdir}"
