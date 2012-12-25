@@ -1,6 +1,6 @@
 # Maintainer: dnuux <dnuuxx@gmail.com>
 pkgname=monsterwm
-pkgver=20121014
+pkgver=20121225
 pkgrel=1
 pkgdesc="Very minimal, lightweight, monstrous, tiny, dynamic window manager"
 url="https://github.com/c00kiemon5ter/monsterwm"
@@ -15,8 +15,8 @@ source=("Makefile"
         "monsterwm.1"
         "LICENSE")
 md5sums=('f7d6353d7882fa69bde77e4ac65382a0'
-         '299f14ca389d1afe71ae981cc9a67102'
-         'eb14760746d56b7d70c06887de053e1f'
+         '896ede709a6fc771728d7742d67f6fc0'
+         '5f9fa7ee768c3a19b33c3f083347346d'
          '4ec00c94b3783092e25b4ca7f6c540ea'
          'c97bdb63d9ef7d6ec9b67d9b02649cc8')
 
