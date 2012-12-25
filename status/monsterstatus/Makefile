@@ -4,7 +4,7 @@ PREFIX ?= /usr/local
 BINDIR ?= ${PREFIX}/bin
 
 INCS = -I. -I/usr/include
-LIBS = -L/usr/lib
+LIBS = -L/usr/lib -lmpdclient
 
 CFLAGS  = -std=c99 -pedantic -Wall -Wextra ${INCS}
 LDFLAGS = ${LIBS}

@@ -1,6 +1,6 @@
 # Maintainer: dnuux <dnuuxx@gmail.com>
 pkgname=monsterstatus
-pkgver=20120918
+pkgver=20121225
 pkgrel=1
 pkgdesc="Very minimal, lightweight status tool"
 url="https://github.com/dnuux/monsterwm"
@@ -9,8 +9,8 @@ license=('WTFPL')
 depends=('glibc')
 source=("Makefile"
         "monsterstatus.c")
-md5sums=('450743c79b2526525ceb486278ae99c3'
-         '4b2dce8f76612a686a0655a6c749a0c6')
+md5sums=('d9b8a6398ba4d5b2583dacb60f510611'
+         '6fe7ed8517bea2056004efa43a4f55b8')
 
 build() {
   cd "${srcdir}"

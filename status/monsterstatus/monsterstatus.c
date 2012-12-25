@@ -4,8 +4,11 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <mpd/client.h>
 
 #define INTERVAL     5
+#define MPD_PORT     6600
+#define MPD_TIMEOUT  1000
 #define CPU_FILE     "/proc/stat"
 #define MEM_FILE     "/proc/meminfo"
 #define UPDATE_FILE  "/home/elias/.pacmanupdates"
@@ -23,38 +26,37 @@ static unsigned times = 1;
 static char pacbuf[16];
 
 static void
-print_cmus_status()
+print_mpd_status()
 {
-    char *status = NULL;
-    char artist[64] = "";
-    char title[128] = "";
-    char buf[128];
-
-    FILE *p;
-    if (!(p = popen("cmus-remote -Q 2>/dev/null", "r")))
+    struct mpd_connection *conn = mpd_connection_new("localhost", MPD_PORT, MPD_TIMEOUT);
+    if (mpd_connection_get_error(conn)) {
+        printf(MUSIC_STR "Not running    ");
         return;
-
-    while (fgets(buf, sizeof(buf), p) != NULL) {
-        if (buf[0] == 's' && buf[1] == 't') {
-            status = strchr(buf, ' ') + 1;
-            if (status[0] != 'p' || status[1] != 'l') {
-                pclose(p);
-                printf(MUSIC_STR "Paused    ");
-                return;
-            }
-        } else if (strncmp(buf, "tag ti", 6) == 0) {
-            sscanf(buf, "%*s %*s %[^\n]", title);
-            if (*artist) break;
-        } else if (strncmp(buf, "tag ar", 6) == 0) {
-            sscanf(buf, "%*s %*s %[^\n]", artist);
-            if (*title) break;
-        }
     }
 
-    pclose(p);
+    struct mpd_status *status = mpd_run_status(conn);
+    if (status) {
+        const enum mpd_state state = mpd_status_get_state(status);
 
-    if (status) printf(MUSIC_STR "%s - %s    ", artist, title);
-    else        printf(MUSIC_STR "Not running    ");
+        if (state == MPD_STATE_PAUSE || state == MPD_STATE_STOP) {
+            printf(MUSIC_STR "Paused    ");
+            mpd_connection_free(conn);
+            return;
+        }
+
+        mpd_status_free(status);
+    }
+
+    struct mpd_song *song = mpd_run_current_song(conn);
+    if (song) {
+        const char *artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
+        const char *title  = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
+
+        printf(MUSIC_STR "%s - %s    ", artist, title);
+        mpd_song_free(song);
+    }
+
+    mpd_connection_free(conn);
 }
 
 static void
@@ -136,7 +138,9 @@ print_date()
     printf(DATE_STR "%s \n", buf);
 }
 
-int main(void) {
+int
+main(void)
+{
     FILE *cpuinfo_fp;
     if (!(cpuinfo_fp = fopen(CPU_FILE, "r")))
         return 1;
@@ -148,7 +152,7 @@ int main(void) {
 
     /* the main loop */
     while (1) {
-        print_cmus_status();
+        print_mpd_status();
         print_updates();
         print_cpu_usage();
         print_memory_usage();
