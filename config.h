@@ -72,7 +72,7 @@ static const AppRule rules[] = { \
     { "Navigator",   0,       1,    False,  False },
     { "zathura",     0,       2,    False,  False },
     { "rtorrent",    0,       3,    False,  False },
-    { "cmus",        0,       0,    False,  False },
+    { "ncmpcpp",     0,       0,    False,  False },
     { "htop",        0,       0,    False,  False },
     { "vifm",        0,       0,    False,  False },
 };
@@ -94,9 +94,9 @@ static const char *voltogglecmd[]  = { "amixer", "-q", "sset", "Master", "toggle
 static const char *voldowncmd[]    = { "amixer", "-q", "sset", "Master", "4-", "unmute", NULL };
 static const char *volupcmd[]      = { "amixer", "-q", "sset", "Master", "4+", "unmute", NULL };
 
-static const char *cmustogglecmd[] = { "cmus-remote", "-u", NULL };
-static const char *cmusprevcmd[]   = { "cmus-remote", "-r", NULL };
-static const char *cmusnextcmd[]   = { "cmus-remote", "-n", NULL };
+static const char *cmustogglecmd[] = { "mpc", "toggle", NULL };
+static const char *cmusprevcmd[]   = { "mpc", "prev", NULL };
+static const char *cmusnextcmd[]   = { "mpc", "next", NULL };
 
 #define MONITORCHANGE(K,N) \
     {  MOD1,             K,              change_monitor, {.i = N}}, \
