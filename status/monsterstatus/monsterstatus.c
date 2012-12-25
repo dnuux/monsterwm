@@ -30,6 +30,7 @@ print_mpd_status()
 {
     struct mpd_connection *conn = mpd_connection_new("localhost", MPD_PORT, MPD_TIMEOUT);
     if (mpd_connection_get_error(conn)) {
+        mpd_connection_free(conn);
         printf(MUSIC_STR "Not running    ");
         return;
     }
@@ -37,14 +38,13 @@ print_mpd_status()
     struct mpd_status *status = mpd_run_status(conn);
     if (status) {
         const enum mpd_state state = mpd_status_get_state(status);
+        mpd_status_free(status);
 
         if (state == MPD_STATE_PAUSE || state == MPD_STATE_STOP) {
             printf(MUSIC_STR "Paused    ");
             mpd_connection_free(conn);
             return;
         }
-
-        mpd_status_free(status);
     }
 
     struct mpd_song *song = mpd_run_current_song(conn);
