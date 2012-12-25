@@ -94,9 +94,9 @@ static const char *voltogglecmd[]  = { "amixer", "-q", "sset", "Master", "toggle
 static const char *voldowncmd[]    = { "amixer", "-q", "sset", "Master", "4-", "unmute", NULL };
 static const char *volupcmd[]      = { "amixer", "-q", "sset", "Master", "4+", "unmute", NULL };
 
-static const char *cmustogglecmd[] = { "mpc", "toggle", NULL };
-static const char *cmusprevcmd[]   = { "mpc", "prev", NULL };
-static const char *cmusnextcmd[]   = { "mpc", "next", NULL };
+static const char *cmustogglecmd[] = { "mpc", "toggle", "-q", NULL };
+static const char *cmusprevcmd[]   = { "mpc", "prev", "-q", NULL };
+static const char *cmusnextcmd[]   = { "mpc", "next", "-q", NULL };
 
 #define MONITORCHANGE(K,N) \
     {  MOD1,             K,              change_monitor, {.i = N}}, \
