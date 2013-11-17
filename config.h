@@ -67,7 +67,7 @@ static const struct ml init[] = { \
  */
 static const AppRule rules[] = { \
     /*  class     monitor  desktop  follow  float */
-    { "MPlayer",     0,      -1,    False,  True  },
+    { "mpv",         0,      -1,    False,  True  },
     { "sxiv",        0,      -1,    False,  True  },
     { "Navigator",   0,       1,    False,  False },
     { "zathura",     0,       2,    False,  False },
@@ -84,7 +84,6 @@ static const AppRule rules[] = { \
 #define MENUFONT "-*-dejavu sans-medium-r-normal--10-*-*-*-*-*-iso8859-1"
 static const char *termcmd[] = { "urxvtc", NULL };
 static const char *menucmd[] = { "dmenu_run", "-i", "-fn", MENUFONT, NULL };
-static const char *lolicmd[] = { "lolimpdnu", NULL };
 static const char *filecmd[] = { "/home/elias/bin/flaunch", "file", "-i", "-fn", MENUFONT, NULL };
 static const char *dircmd[]  = { "/home/elias/bin/flaunch", "dir", "-i", "-fn", MENUFONT, NULL };
 static const char *warecmd[] = { "urxvtc", "-name", "rtorrent", "-e", "rtorrent", NULL };
@@ -129,7 +128,6 @@ static Key keys[] = {
     {  0,                0x1008ff17,    spawn,             {.com = cmusnextcmd}},
     {  MOD4|SHIFT,       XK_Return,     spawn,             {.com = termcmd}},
     {  MOD4,             XK_v,          spawn,             {.com = menucmd}},
-    {  MOD4,             XK_s,          spawn,             {.com = lolicmd}},
     {  MOD4,             XK_f,          spawn,             {.com = filecmd}},
     {  MOD4,             XK_d,          spawn,             {.com = dircmd}},
     {  MOD4|SHIFT,       XK_r,          spawn,             {.com = warecmd}},
